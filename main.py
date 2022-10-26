@@ -54,6 +54,10 @@ class Circle:
 
     #  Add Point in Circle Calculation
 
+class Curve:
+    def __init__(self, crv):
+        self.crv = crv**2
+
 
 if __name__ == "__main__":
     p = Point(10, 10)
