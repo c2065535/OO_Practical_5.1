@@ -52,11 +52,50 @@ class Circle:
     def perimeter(self):
         return 2 * math.pi * self.r
 
-    #  Add Point in Circle Calculation
+    def __contains__(self, p):
+        """method to determine whether a given point is inside the object"""
+        # Adapted from
+        # https://www.geeksforgeeks.org/find-if-a-point-lies-inside-or-on-circle/
+        return ((p.x - self.o.x) ** 2 + (p.y - self.o.y) ** 2) <= (self.r ** 2)
 
-class Curve:
-    def __init__(self, crv):
-        self.crv = crv**2
+
+class Curve():
+    """Class to represent a list of points on a graph"""
+
+    def __init__(self, *inputs):
+        """constructor for a curve"""
+        self.items = []
+        for i in inputs:
+            self.append_if_valid(i)
+
+    def append_if_valid(self, item):
+        """add a new point object to the curve"""
+        if not isinstance(item, Point):
+            raise TypeError("Curves only take point objects")
+        self.items.append(item)
+
+    def __str__(self):
+        """string representation of a curve"""
+        return "Curve:{}".format(self.items)
+
+    def __repr__(self):
+        """formal string representation of a curve"""
+        s = ", "
+        s = s.join([repr(x) for x in self.items])
+        return "Curve({})".format(s)
+
+    def __getitem__(self, index):
+        """get point(s) in curve"""
+        if isinstance(index, int):
+            return self.items[index]
+        else:
+            return Curve(*self.items[index])
+
+    def __setitem__(self, index, item):
+        """update curve with given point value"""
+        if not isinstance(item, Point):
+            raise TypeError("Curves only take point objects")
+        self.items[index] = item
 
 
 if __name__ == "__main__":
